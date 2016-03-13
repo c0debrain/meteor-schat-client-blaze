@@ -18,6 +18,8 @@
     transition: transform .3s;
     -webkit-box-shadow: 3px 7px 20px -4px rgba(0, 0, 0, 0.35);
     box-shadow: 3px 7px 20px -4px rgba(0, 0, 0, 0.35);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 .s-chat-box.opened {
     -webkit-transform: translateY(0);
