@@ -9,8 +9,9 @@ Template.sChatBox.onRendered(function () {
     const input = this.$('.js-chat-submit-input');
     const data = Template.currentData();
     const userSessionId = data && data.userSessionId;
+    const userAgentMatch = navigator.userAgent && navigator.userAgent.match(/iPhone|iPad|iPod/i);
 
-    if (navigator.userAgent.match(/iPhone|iPad|iPod/i).length) {
+    if (userAgentMatch && userAgentMatch.length) {
         this.isIOS.set(true);
     }
 
@@ -34,7 +35,9 @@ Template.sChatBox.events({
     'click .js-chat-box-open'(e, tmpl) {
         tmpl.find('.s-chat-box').classList.add('opened');
         tmpl.find('.s-chat-box-opener').classList.add('hidden');
-        tmpl.find('.s-chat-submit-input').focus();
+        Meteor.setTimeout(() => {
+            tmpl.find('.s-chat-submit-input').focus();
+        }, 0);
     },
     'click .js-chat-box-close'(e, tmpl) {
         tmpl.find('.s-chat-box').classList.remove('opened');
