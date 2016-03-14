@@ -19,7 +19,7 @@
         <div id="s-chat-powered-by" class="s-chat-powered-by">
             Powered by <a href="https://simplechat.support">simplechat.support</a>
         </div>
-        <textarea id="s-chat-submit-input" class="s-chat-submit-input js-chat-submit-input" rows="1" placeholder="{{sChatInputPlaceholder}}"></textarea>
+        <textarea id="s-chat-submit-input" class="s-chat-submit-input {{#if isIOS}}s-chat-submit-input-ios{{/if}} js-chat-submit-input" rows="1" placeholder="{{sChatInputPlaceholder}}"></textarea>
     </div>
     <div id="s-chat-box-opener" class="s-chat-box-opener js-chat-box-open"></div>
 </template>

@@ -131,6 +131,11 @@
     margin: 0;
     display: block;
 }
+/* ios zoom problem fix */
+.s-chat-submit-input-ios {
+    font-size: 16px;
+}
+
 
 /* =========================================================================== */
 /* sChat 'opener' icon trigger */

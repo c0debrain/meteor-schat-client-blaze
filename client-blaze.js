@@ -1,6 +1,7 @@
 
 Template.sChatBox.onCreated(function () {
     this.sChatMessages = new ReactiveVar(null);
+    this.isIOS = new ReactiveVar(false);
 });
 
 Template.sChatBox.onRendered(function () {
@@ -8,6 +9,10 @@ Template.sChatBox.onRendered(function () {
     const input = this.$('.js-chat-submit-input');
     const data = Template.currentData();
     const userSessionId = data && data.userSessionId;
+
+    if (navigator.userAgent.match(/iPhone|iPad|iPod/i).length) {
+        this.isIOS.set(true);
+    }
 
     this.autorun(() => {
         if (sChat.messages.count()) {
@@ -83,6 +88,10 @@ Template.sChatBox.helpers({
     },
     sChatInputPlaceholder() {
         return sChat.settings.labels.sendPlaceholder;
+    },
+    isIOS() {
+        const tmpl = Template.instance();
+        return tmpl.isIOS.get();
     }
 });
 
