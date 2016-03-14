@@ -1,6 +1,6 @@
 Package.describe({
     name: 'schat:client-blaze',
-    version: '1.0.3',
+    version: '1.0.4',
     summary: 'sChat client app for Meteor - Blaze view layer',
     git: 'https://github.com/juliancwirko/meteor-schat-client-blaze.git',
     documentation: 'README.md'
