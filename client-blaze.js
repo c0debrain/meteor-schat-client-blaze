@@ -1,34 +1,49 @@
 
 Template.sChatBox.onCreated(function () {
     this.sChatMessages = new ReactiveVar(null);
+    this.adminStatus = new ReactiveVar(false);
     this.isIOS = new ReactiveVar(false);
 });
 
 Template.sChatBox.onRendered(function () {
-    const messages = this.$('.js-chat-messages');
-    const input = this.$('.js-chat-submit-input');
+    const tmpl = this;
+    const messages = tmpl.$('.js-chat-messages');
+    const input = tmpl.$('.js-chat-submit-input');
     const data = Template.currentData();
     const userSessionId = data && data.userSessionId;
     const userAgentMatch = navigator.userAgent && navigator.userAgent.match(/iPhone|iPad|iPod/i);
 
     if (userAgentMatch && userAgentMatch.length) {
-        this.isIOS.set(true);
+        tmpl.isIOS.set(true);
     }
 
-    this.autorun(() => {
+    tmpl.autorun(() => {
         if (sChat.messages.count()) {
-            this.sChatMessages.set(sChat.messages);
+            tmpl.sChatMessages.set(sChat.messages);
             messages[0].scrollTop = messages[0].scrollHeight;
         }
     });
-    sChat.autosize(this.find('.s-chat-submit-input'));
+    sChat.autosize(tmpl.find('.s-chat-submit-input'));
 
-    this.textareaInitSize = input.outerHeight();
-    this.messagesInitSize = $(messages).outerHeight();
+    const adminStatusObserveFunc = (id, fields) => {
+        if (fields.status && fields.status.online) {
+            tmpl.adminStatus.set(fields.status.online);
+        } else {
+            tmpl.adminStatus.set(false);
+        }
+    };
+    tmpl.handleAdminStatusObserve = sChat.adminStatusCurr.observeChanges({
+        added: adminStatusObserveFunc,
+        changed: adminStatusObserveFunc
+    });
+
+    tmpl.textareaInitSize = input.outerHeight();
+    tmpl.messagesInitSize = $(messages).outerHeight();
 });
 
 Template.sChatBox.onDestroyed(function () {
     sChat.autosize.destroy(this.find('.s-chat-submit-input'));
+    this.handleAdminStatusObserve.stop();
 });
 
 Template.sChatBox.events({
@@ -95,6 +110,10 @@ Template.sChatBox.helpers({
     isIOS() {
         const tmpl = Template.instance();
         return tmpl.isIOS.get();
+    },
+    isAdminActive() {
+        const tmpl = Template.instance();
+        return tmpl.adminStatus.get();
     }
 });
 
